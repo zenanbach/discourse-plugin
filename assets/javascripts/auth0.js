@@ -51,6 +51,7 @@
 
         lock.show({
           popup:        true,
+          icon:         "https://courageousparentsnetwork.org/app/themes/cpn/dist/images/CPN_block_logo-01-01.svg",
           responseType: 'code',
           callbackURL:  Discourse.SiteSettings.auth0_callback_url
         });
@@ -74,6 +75,7 @@
         } else {
           lock.show({
             mode:         'signup',
+            icon:         "https://courageousparentsnetwork.org/app/themes/cpn/dist/images/CPN_block_logo-01-01.svg",
             popup:        true,
             responseType: 'code',
             callbackURL:  Discourse.SiteSettings.auth0_callback_url
