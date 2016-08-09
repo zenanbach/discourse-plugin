@@ -60,6 +60,7 @@
       if (lock) {
         lock.hide();
       }
+      
       return this._super.apply(this, arguments);
     }
   });
