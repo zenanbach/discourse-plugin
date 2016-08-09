@@ -32,7 +32,7 @@
         callbackURL:  Discourse.SiteSettings.auth0_callback_url,
         additionalSignUpFields: [{
           type: "select",
-          name: "User Type",
+          name: "userType",
           placeholder: "Please tell us if you are a:",
           options: [
             {value: "Bereaved parent", label: "Bereaved parent"},
