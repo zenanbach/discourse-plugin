@@ -30,7 +30,6 @@
           logo: "https://courageousparentsnetwork.org/app/themes/cpn/dist/images/CPN_block_logo-01-01.svg"
         },
         auth: {
-          redirect: false,
           redirectUrl: Discourse.SiteSettings.auth0_callback_url,
           responseType: "code",
           sso: false
