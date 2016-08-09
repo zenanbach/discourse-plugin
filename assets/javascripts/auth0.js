@@ -26,12 +26,18 @@
       var client_id = Discourse.SiteSettings.auth0_client_id;
       var domain = Discourse.SiteSettings.auth0_domain;
       var options = {
-        icon:         "https://courageousparentsnetwork.org/app/themes/cpn/dist/images/CPN_block_logo-01-01.svg",
+        theme: {
+          logo: "https://courageousparentsnetwork.org/app/themes/cpn/dist/images/CPN_block_logo-01-01.svg"
+        },
         auth: {
           redirect: false
         },
-        responseType: 'code',
-        callbackURL:  Discourse.SiteSettings.auth0_callback_url,
+        auth: {
+          responseType: "code"
+        },
+        auth: {
+          redirectUrl: Discourse.SiteSettings.auth0_callback_url
+        },
         additionalSignUpFields: [{
           type: "select",
           name: "userType",
