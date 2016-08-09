@@ -9,7 +9,7 @@
 
   var lock;
 
-  var script_url = '//cdn.auth0.com/js/lock-8.0.js';
+  var script_url = '//cdn.auth0.com/js/10.0.2/lock.min.js';
 
   appendScript(script_url, function () {
     var checkInterval = setInterval(function () {
@@ -25,8 +25,27 @@
 
       var client_id = Discourse.SiteSettings.auth0_client_id;
       var domain = Discourse.SiteSettings.auth0_domain;
-
-      lock = new Auth0Lock(client_id, domain);
+      var options = {
+        icon:         "https://courageousparentsnetwork.org/app/themes/cpn/dist/images/CPN_block_logo-01-01.svg",
+        popup:        true,
+        responseType: 'code',
+        callbackURL:  Discourse.SiteSettings.auth0_callback_url,
+        additionalSignUpFields: [{
+          type: "select",
+          name: "User Type",
+          placeholder: "Please tell us if you are a:",
+          options: [
+            {value: "Bereaved parent", label: "Bereaved parent"},
+            {value: "Parent of an affected child", label: "Parent of an affected child"},
+            {value: "Provider", label: "Provider"},
+            {value: "Grandparent", label: "Grandparent"},
+            {value: "Extended family", label: "Extended family"},
+            {value: "Simply a wonderful supporter", label: "Simply a wonderful supporter"}
+          ]
+        }]
+        
+      }
+      lock = new Auth0Lock(client_id, domain, options);
 
     }, 300);
   });
@@ -49,12 +68,7 @@
           return this._super();
         }
 
-        lock.show({
-          popup:        true,
-          icon:         "https://courageousparentsnetwork.org/app/themes/cpn/dist/images/CPN_block_logo-01-01.svg",
-          responseType: 'code',
-          callbackURL:  Discourse.SiteSettings.auth0_callback_url
-        });
+        lock.show();
 
         this.controllerFor('login').resetForm();
       },
@@ -73,13 +87,7 @@
             this._super();
           }
         } else {
-          lock.show({
-            mode:         'signup',
-            icon:         "https://courageousparentsnetwork.org/app/themes/cpn/dist/images/CPN_block_logo-01-01.svg",
-            popup:        true,
-            responseType: 'code',
-            callbackURL:  Discourse.SiteSettings.auth0_callback_url
-          });
+          lock.show();
         }
       }
     }
