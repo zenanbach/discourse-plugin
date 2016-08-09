@@ -27,7 +27,9 @@
       var domain = Discourse.SiteSettings.auth0_domain;
       var options = {
         icon:         "https://courageousparentsnetwork.org/app/themes/cpn/dist/images/CPN_block_logo-01-01.svg",
-        popup:        true,
+        auth: {
+          redirect: false
+        },
         responseType: 'code',
         callbackURL:  Discourse.SiteSettings.auth0_callback_url,
         additionalSignUpFields: [{
