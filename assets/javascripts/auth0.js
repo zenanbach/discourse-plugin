@@ -31,8 +31,7 @@
         },
         auth: {
           redirectUrl: Discourse.SiteSettings.auth0_callback_url,
-          responseType: "code",
-          sso: false
+          responseType: "code"
         },
         additionalSignUpFields: [{
           type: "select",
