@@ -31,7 +31,8 @@
         },
         auth: {
           redirect: false,
-          responseType: "code"
+          responseType: "code",
+          sso: false
         },
         additionalSignUpFields: [{
           type: "select",
