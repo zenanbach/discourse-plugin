@@ -9,7 +9,7 @@
 
   var lock;
 
-  var script_url = 'https://cdn.auth0.com/js/lock/10.0/lock.min.js';
+  var script_url = '//cdn.auth0.com/js/lock-9.2.js';
 
   appendScript(script_url, function () {
     var checkInterval = setInterval(function () {
@@ -25,46 +25,22 @@
 
       var client_id = Discourse.SiteSettings.auth0_client_id;
       var domain = Discourse.SiteSettings.auth0_domain;
-      var options = {
-        theme: {
-          logo: "https://courageousparentsnetwork.org/app/themes/cpn/dist/images/CPN_block_logo-01-01.svg"
-        },
-        auth: {
-          redirect: false,
-          redirectUrl: Discourse.SiteSettings.auth0_callback_url,
-          responseType: "code"
-        },
-        additionalSignUpFields: [{
-          type: "select",
-          name: "userType",
-          placeholder: "Please tell us if you are a:",
-          options: [
-            {value: "Bereaved parent", label: "Bereaved parent"},
-            {value: "Parent of an affected child", label: "Parent of an affected child"},
-            {value: "Provider", label: "Provider"},
-            {value: "Grandparent", label: "Grandparent"},
-            {value: "Extended family", label: "Extended family"},
-            {value: "Simply a wonderful supporter", label: "Simply a wonderful supporter"}
-          ]
-        }]
-        
-      }
-      lock = new Auth0Lock(client_id, domain, options);
+
+      lock = new Auth0Lock(client_id, domain);
 
     }, 300);
   });
-  
+
   var LoginController = require('discourse/controllers/login').default;
   LoginController.reopen({
     authenticationComplete: function () {
       if (lock) {
         lock.hide();
       }
-      
       return this._super.apply(this, arguments);
     }
   });
-  
+
   var ApplicationRoute = require('discourse/routes/application').default;
   ApplicationRoute.reopen({
     actions: {
@@ -73,7 +49,11 @@
           return this._super();
         }
 
-        lock.show();
+        lock.show({
+          popup:        true,
+          responseType: 'code',
+          callbackURL:  Discourse.SiteSettings.auth0_callback_url
+        });
 
         this.controllerFor('login').resetForm();
       },
@@ -92,7 +72,12 @@
             this._super();
           }
         } else {
-          lock.show();
+          lock.show({
+            mode:         'signup',
+            popup:        true,
+            responseType: 'code',
+            callbackURL:  Discourse.SiteSettings.auth0_callback_url
+          });
         }
       }
     }
